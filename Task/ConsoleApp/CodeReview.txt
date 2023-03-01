@@ -1,0 +1,11 @@
+﻿1. ImportedObjectBaseClass - nie wnosi żadnej funkcjonalności do kodu.
+2. Metoda ImportAndPrintData - Zbyt wiele się tam dzieje, przez co metoda nie jest otwarta na rozbudowe i wymusza modyfikacje.
+3. Nadmierne użycie pętli co powoduje niższy performance aplikacji.
+4. Redundancja kodu w sekcji 'Clean and correct imported data'.
+5. W program.cs brak Try Catch i sprawdzenia czy podany plik istnieje. 
+6. Źle zaimplementowany obiekt IEnumerable<ImportedObject> ImportedObjects;
+7. Przez brak użytej dyrektywy using StreamReader nigdy nie pozostaje "uwolniony".
+8. Podczas ładowania pliku puste linkiji nie są pomijane.
+9. IsNullable jest nie prawidłowym DataType.
+10. Nie potrzebny Cast w linijce 39 - obniża performance aplikacji.
+11. 

@@ -7,16 +7,7 @@
 
     public class DataReader
     {
-        private IEnumerable<ImportedObject> ImportedObjects;
-
-        public List<dynamic> Import(string fileToImport)
-        {
-            var importedLines = ReadLines(fileToImport);
-            ImportedObjects = ImportCleanData(importedLines);
-            ImportedObjects = AssignChildren(ImportedObjects.ToList());
-            var databaseGroups = GetDatabaseGroups(ImportedObjects).ToList();
-            return databaseGroups;
-        }
+        #region Public
 
         public void PrintImportedData(List<dynamic> ImportedData, bool printData = true)
         {
@@ -24,6 +15,19 @@
                 PrintData(ImportedData);
             Console.ReadLine();
         }
+
+        public List<dynamic> Import(string fileToImport)
+        {
+            var importedLines = ReadLines(fileToImport);
+            IEnumerable<ImportedObject> ImportedObjects = ImportCleanData(importedLines);
+            ImportedObjects = AssignChildren(ImportedObjects.ToList());
+            var databaseGroups = GetDatabaseGroups(ImportedObjects).ToList();
+            return databaseGroups;
+        }
+
+        #endregion Public
+
+        #region Private
 
         private void PrintData(IEnumerable<dynamic> databaseGroups)
         {
@@ -70,17 +74,6 @@
             return databaseGroups;
         }
 
-        private List<ImportedObject> AssignChildren(List<ImportedObject> ImportedObjects)
-        {
-            foreach (var importedObject in ImportedObjects)
-            {
-                importedObject.NumberOfChildren = ImportedObjects
-                    .Count(impObj => impObj.ParentType == importedObject.Type && impObj.ParentName == importedObject.Name);
-            }
-
-            return ImportedObjects;
-        }
-
         private IEnumerable<ImportedObject> ImportCleanData(List<string> importedLines)
         {
             for (int i = 0; i <= importedLines.Count() - 1; i++)
@@ -101,17 +94,29 @@
             }
         }
 
-        private List<string> ReadLines(string fileToImport)
+        private List<ImportedObject> AssignChildren(List<ImportedObject> ImportedObjects)
         {
-            var streamReader = new StreamReader(fileToImport);
-            var importedLines = new List<string>();
-            while (!streamReader.EndOfStream)
+            foreach (var importedObject in ImportedObjects)
             {
-                var line = streamReader.ReadLine();
-                if (!String.IsNullOrWhiteSpace(line))
-                    importedLines.Add(line);
+                importedObject.NumberOfChildren = ImportedObjects
+                    .Count(impObj => impObj.ParentType == importedObject.Type && impObj.ParentName == importedObject.Name);
             }
 
+            return ImportedObjects;
+        }
+
+        private List<string> ReadLines(string fileToImport)
+        {
+            var importedLines = new List<string>();
+            using (var streamReader = new StreamReader(fileToImport))
+            {
+                while (!streamReader.EndOfStream)
+                {
+                    var line = streamReader.ReadLine();
+                    if (!String.IsNullOrWhiteSpace(line))
+                        importedLines.Add(line);
+                }
+            }
             return importedLines;
         }
 
@@ -128,6 +133,8 @@
         }
 
         private string CleanString(string str) => str.Trim().Replace(" ", "").Replace(Environment.NewLine, "");
+
+        #endregion Private
     }
 
     internal class ImportedObject

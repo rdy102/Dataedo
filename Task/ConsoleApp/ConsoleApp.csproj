@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="CodeReview.txt" />
     <Content Include="data.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
