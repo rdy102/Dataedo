@@ -7,5 +7,9 @@
 7. Przez brak użytej dyrektywy using StreamReader nigdy nie pozostaje "uwolniony".
 8. Podczas ładowania pliku puste linkiji nie są pomijane.
 9. IsNullable jest nie prawidłowym DataType.
-10. Nie potrzebny Cast w linijce 39 - obniża performance aplikacji.
-11. 
+10. Nie potrzebny Cast w linijce 39 podczas dodawania obiekut - obniża performance aplikacji.
+11. Wielokrotne operacje na Collections podczas wyświetlania danych, co również obniża performance. 
+12. Zbyt wiele operacji typu ToUpper, zamiast zunifikować wszystko podczas ładowania danych. 
+13. bool printData nie jest nigdzie wykorzystany.
+
+**dynamic DataTypes zostały użyte tylko dla szybszego wykonania zadania. 
